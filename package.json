@@ -1,7 +1,21 @@
 {
-  "name": "shadcn-quick-start",
-  "version": "1.0.0",
+  "name": "shadcn-quick-cli",
+  "version": "0.1.0",
   "main": "index.js",
-  "scripts": {},
-  "license": "MIT"
+  "author": {
+    "name": "jiwooproity",
+    "email": "jiwooproity@naver.com",
+    "url": "https://www.github.com/jiwooproity"
+  },
+  "bin": {
+    "shad": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^22.1.0",
+    "shadcn-quick-cli": "^0.1.0"
+  }
 }

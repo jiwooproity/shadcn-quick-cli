@@ -86,16 +86,20 @@ export const start = async (param: OptionsIF) => {
       const answer = await select({ message: "What would you like to add in project", choices });
 
       if ((await validationComp(answer.toLowerCase())) && !param.overwrite) {
-        const choices = [
-          { name: "Yes", value: "--overwrite" },
-          { name: "No", value: "" },
-        ];
-
+        const selectArr = ["Yes", "No"];
+        const choices = selectArr.map((select) => ({ name: select, value: select }));
         const check = await select({ message: "Woul you like to overwrite?", choices });
-        if (check) options += options;
-        else {
-          console.log("canceled install");
-          process.exit();
+
+        switch (check) {
+          case "Yes":
+            options += controlOptions({ ...param, overwrite: true });
+            break;
+          case "No":
+            console.log("Canceled installing");
+            process.exit();
+            break;
+          default:
+            break;
         }
       }
 

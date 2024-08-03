@@ -63,7 +63,7 @@ export const start = async (overwrite: boolean = false) => {
   try {
     const choices = components.map((comp) => ({ name: comp, value: comp }));
     const answer = await select({ message: "What would you like to add in project", choices });
-    exec(`${installCommand} shadcn-ui@latest add ${answer} ${options}`, output);
+    exec(`${installCommand} shadcn-ui@latest add ${answer.toLowerCase()} ${options}`, output);
   } catch (e) {
     console.error("Canceled");
   }

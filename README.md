@@ -16,3 +16,10 @@ if you added library in project
 npm i -D shadcn-quick-cli // install
 npx shad
 ```
+
+if you added global
+
+```
+npm i -g shadcn-quick-cli // install --global
+shad
+```

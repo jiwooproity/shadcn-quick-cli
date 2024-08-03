@@ -86,10 +86,12 @@ export const start = async (param: OptionsIF) => {
       const answer = await select({ message: "What would you like to add in project", choices });
 
       if ((await validationComp(answer)) && !param.overwrite) {
-        const choiceArr = ["Yes", "No"];
-        const choices = choiceArr.map((choice) => ({ name: choice, value: choice }));
-        const check = await select({ message: "", choices });
-        options += check ? "--overwrite" : "";
+        const choices = [
+          { name: "Yes", value: "--overwrite" },
+          { name: "No", value: "" },
+        ];
+
+        options += await select({ message: "Woul you like to overwrite?", choices });
       }
 
       command(manage, answer, options);

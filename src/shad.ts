@@ -5,13 +5,28 @@ import { resolve } from "path";
 import { readdirSync } from "fs";
 import { exec } from "child_process";
 
-const readdir = () => {
-  const path = resolve("./");
-  return readdirSync(path);
+interface OptionsIF {
+  help: boolean;
+  overwrite: boolean;
+  target: string;
+  select: boolean;
+}
+
+const readdir = (path: string) => {
+  const resolvePath = resolve(path);
+  return readdirSync(resolvePath);
+};
+
+const validationComp = async (componentName: string) => {
+  const json = await axios.get("./components.json");
+  const configPath = await json.data.aliases.components;
+  const filePath = resolve(__dirname, `${configPath}/ui`);
+  const fileNames = readdirSync(filePath).map((file) => file.split("."));
+  return fileNames.map((file) => file[0]).includes(componentName);
 };
 
 const searchPkgName = () => {
-  const files = readdir();
+  const files = readdir("./");
 
   if (files.includes("package-lock.json")) {
     return "npx";
@@ -40,10 +55,10 @@ const getComponentList = async () => {
   return $links.get();
 };
 
-const controlOptions = (overwrite: boolean) => {
+const controlOptions = (param: OptionsIF) => {
   let options = "";
 
-  if (overwrite) {
+  if (param.overwrite) {
     options += "--overwrite";
   }
 
@@ -55,15 +70,33 @@ const output = (_: any, stdout: string, stderr: string) => {
   console.log(stderr);
 };
 
-export const start = async (overwrite: boolean = false) => {
-  const options = controlOptions(overwrite);
-  const installCommand = searchPkgName();
-  const components = await getComponentList();
+const command = (manage: string, answer: string, options: string) => {
+  exec(`${manage} shadcn-ui@latest add ${answer.toLowerCase()} ${options}`, output);
+};
+
+export const start = async (param: OptionsIF) => {
+  let options = controlOptions(param);
+  const manage = searchPkgName() as string;
 
   try {
-    const choices = components.map((comp) => ({ name: comp, value: comp }));
-    const answer = await select({ message: "What would you like to add in project", choices });
-    exec(`${installCommand} shadcn-ui@latest add ${answer.toLowerCase()} ${options}`, output);
+    if (param.select) {
+      const components = await getComponentList();
+      const choices = components.map((comp) => ({ name: comp, value: comp }));
+      const answer = await select({ message: "What would you like to add in project", choices });
+
+      if ((await validationComp(answer)) && !param.overwrite) {
+        const choiceArr = ["Yes", "No"];
+        const choices = choiceArr.map((choice) => ({ name: choice, value: choice }));
+        const check = await select({ message: "", choices });
+        options += check ? "--overwrite" : "";
+      }
+
+      command(manage, answer, options);
+    }
+
+    if (param.target) {
+      command(manage, param.target, options);
+    }
   } catch (e) {
     console.error("Canceled");
   }

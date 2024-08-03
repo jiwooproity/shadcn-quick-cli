@@ -22,7 +22,6 @@ const validationComp = async (componentName: string) => {
   const configPath = await JSON.parse(configFile);
   const filePath = resolve(`./${configPath.aliases.components}/ui`);
   const fileNames = readdirSync(filePath).map((file) => file.split("."));
-  console.log(fileNames);
   return fileNames.map((file) => file[0]).includes(componentName);
 };
 
@@ -85,7 +84,7 @@ export const start = async (param: OptionsIF) => {
       const choices = components.map((comp) => ({ name: comp, value: comp }));
       const answer = await select({ message: "What would you like to add in project", choices });
 
-      if ((await validationComp(answer)) && !param.overwrite) {
+      if ((await validationComp(answer.toLowerCase())) && !param.overwrite) {
         const choices = [
           { name: "Yes", value: "--overwrite" },
           { name: "No", value: "" },

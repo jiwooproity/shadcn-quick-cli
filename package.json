@@ -21,10 +21,10 @@
     "axios": "^1.7.3",
     "chalk": "^5.3.0",
     "cheerio": "^1.0.0-rc.12",
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
     "jest": "^29.7.0",
     "@types/node": "^22.1.0"
   }

@@ -1,6 +1,6 @@
 {
   "name": "shadcn-quick-cli",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "main": "index.js",
   "author": {
     "name": "jiwooproity",
@@ -15,7 +15,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^22.1.0",
-    "shadcn-quick-cli": "^0.1.0"
+    "@types/node": "^22.1.0"
   }
 }

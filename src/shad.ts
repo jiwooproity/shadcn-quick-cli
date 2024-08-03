@@ -20,8 +20,9 @@ const readdir = (path: string) => {
 const validationComp = async (componentName: string) => {
   const configFile = readFileSync("./components.json").toString();
   const configPath = await JSON.parse(configFile);
-  const filePath = resolve(`${configPath.aliases.components}/ui`);
+  const filePath = resolve(`./${configPath.aliases.components}/ui`);
   const fileNames = readdirSync(filePath).map((file) => file.split("."));
+  console.log(fileNames);
   return fileNames.map((file) => file[0]).includes(componentName);
 };
 

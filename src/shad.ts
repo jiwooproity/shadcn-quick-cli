@@ -16,6 +16,8 @@ const searchPkgName = () => {
   if (files.includes("package-lock.json")) {
     return "npx";
   } else if (files.includes("yarn.lock")) {
+    return "yarn add";
+  } else if (files.includes(".yarn")) {
     return "yarn dlx";
   }
 };
@@ -48,6 +50,11 @@ const controlOptions = (overwrite: boolean) => {
   return options;
 };
 
+const output = (_: any, stdout: string, stderr: string) => {
+  console.log(stdout);
+  console.log(stderr);
+};
+
 export const start = async (overwrite: boolean = false) => {
   const options = controlOptions(overwrite);
   const installCommand = searchPkgName();
@@ -56,7 +63,7 @@ export const start = async (overwrite: boolean = false) => {
   try {
     const choices = components.map((comp) => ({ name: comp, value: comp }));
     const answer = await select({ message: "What would you like to add in project", choices });
-    exec(`${installCommand} shadcn-ui@latest add ${answer} ${options}`);
+    exec(`${installCommand} shadcn-ui@latest add ${answer} ${options}`, output);
   } catch (e) {
     console.error("Canceled");
   }

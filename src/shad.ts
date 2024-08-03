@@ -76,6 +76,7 @@ const command = (manage: string, answer: string, options: string) => {
 };
 
 export const start = async (param: OptionsIF) => {
+  let answer = "";
   let options = controlOptions(param);
   const manage = searchPkgName() as string;
 
@@ -83,32 +84,31 @@ export const start = async (param: OptionsIF) => {
     if (param.select) {
       const components = await getComponentList();
       const choices = components.map((comp) => ({ name: comp, value: comp }));
-      const answer = await select({ message: "What would you like to add in project", choices });
-
-      if ((await validationComp(answer.toLowerCase())) && !param.overwrite) {
-        const selectArr = ["Yes", "No"];
-        const choices = selectArr.map((select) => ({ name: select, value: select }));
-        const check = await select({ message: "Woul you like to overwrite?", choices });
-
-        switch (check) {
-          case "Yes":
-            options += controlOptions({ ...param, overwrite: true });
-            break;
-          case "No":
-            console.log("Canceled installing");
-            process.exit();
-            break;
-          default:
-            break;
-        }
-      }
-
-      command(manage, answer, options);
+      answer = await select({ message: "What would you like to add in project", choices });
     }
 
     if (param.target) {
-      command(manage, param.target, options);
+      answer = param.target;
     }
+
+    if ((await validationComp(answer.toLowerCase())) && !param.overwrite) {
+      const selectArr = ["Yes", "No"];
+      const choices = selectArr.map((select) => ({ name: select, value: select }));
+      const check = await select({ message: "Woul you like to overwrite?", choices });
+
+      switch (check) {
+        case "Yes":
+          options += controlOptions({ ...param, overwrite: true });
+          break;
+        case "No":
+          console.log("Canceled installing");
+          process.exit();
+        default:
+          break;
+      }
+    }
+
+    command(manage, answer, options);
   } catch (e) {
     console.error("Canceled");
   }

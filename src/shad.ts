@@ -68,6 +68,7 @@ const controlOptions = (param: OptionsIF) => {
 const output = (_: any, stdout: string, stderr: string) => {
   console.log(stdout);
   console.log(stderr);
+  process.exit();
 };
 
 const command = (manage: string, answer: string, options: string) => {
@@ -90,7 +91,12 @@ export const start = async (param: OptionsIF) => {
           { name: "No", value: "" },
         ];
 
-        options += await select({ message: "Woul you like to overwrite?", choices });
+        const check = await select({ message: "Woul you like to overwrite?", choices });
+        if (check) options += options;
+        else {
+          console.log("canceled install");
+          process.exit();
+        }
       }
 
       command(manage, answer, options);

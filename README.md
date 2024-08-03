@@ -14,24 +14,40 @@ This shadcn-quick-cli is a CLI interface library for using installations shadcn-
 
 ## Usage
 
-if you added library in project
+If you added library in project
 
 ```
 npm i -D shadcn-quick-cli // install
 npx shad
 ```
 
-if you added global
+If you added global ( select or target )
 
 ```
 npm i -g shadcn-quick-cli // install --global
-shad
+shad -s
+shad -t button
 ```
+
+## Overwrite
+
+Use overwrite option
+
+```
+shad -s -o
+```
+
+```
+shad -t button -o
+```
+
 
 ## options
 
-|tag            |description                                            |
-|---------------|-------------------------------------------------------|
-|-v, --version  |output the current version                             |
-|-o, --overwrite|overwrite the existing component and download a new one|
-|-h, --help     |output all commands and guide                          |
+|tag                       |description                                            |
+|--------------------------|-------------------------------------------------------|
+|-v, --version             |output the current version                             |
+|-t, --target <component>  |directly select to shadcn-ui component                 |
+|-s, --select              |get component list for select                          |
+|-o, --overwrite           |overwrite the existing component and download a new one|
+|-h, --help                |output all commands and guide                          |

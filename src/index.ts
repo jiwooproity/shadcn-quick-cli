@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
-const readline = require("readline");
-const { stdin, stdout } = require("process");
+import { program } from "commander";
+import { config } from "dotenv";
 
-const rl = readline.createInterface({
-  input: stdin,
-  output: stdout,
-});
+import { start } from "./shad";
 
-rl.question("테스트 실행입니다.", () => {
-  console.log("입력되었습니다.");
-  rl.close();
-  process.exit();
-});
+config();
+
+program
+  .version(`${process.env.VERSION}`, "-v, --version", "output the current version")
+  .option("-o, --overwrite", "overwrite the existing component and download a new one")
+  .option("-h, --help", "output all commands and guide")
+  .action((options) => start(options.overwrite));
+
+program.parse(process.argv);

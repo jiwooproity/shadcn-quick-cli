@@ -2,7 +2,7 @@ import axios from "axios";
 import select from "@inquirer/select";
 import { load } from "cheerio";
 import { resolve } from "path";
-import { readdirSync } from "fs";
+import { readdirSync, readFileSync } from "fs";
 import { exec } from "child_process";
 
 interface OptionsIF {
@@ -18,9 +18,9 @@ const readdir = (path: string) => {
 };
 
 const validationComp = async (componentName: string) => {
-  const json = await axios.get("./components.json");
-  const configPath = await json.data.aliases.components;
-  const filePath = resolve(__dirname, `${configPath}/ui`);
+  const configFile = readFileSync("./components.json").toString();
+  const configPath = await JSON.parse(configFile);
+  const filePath = resolve(__dirname, `${configPath.aliases.components}/ui`);
   const fileNames = readdirSync(filePath).map((file) => file.split("."));
   return fileNames.map((file) => file[0]).includes(componentName);
 };

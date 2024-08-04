@@ -12,6 +12,16 @@ This shadcn-quick-cli is a CLI interface library for using installations shadcn-
 | ------------------------- | ---------------------------- |
 | npm i -D shadcn-quick-cli | yarn add -D shadcn-quick-cli |
 
+## Options
+
+| tag                        | description                                             |
+| -------------------------- | ------------------------------------------------------- |
+| -v, --version              | output the current version                              |
+| -t, --target \<component\> | directly select to shadcn-ui component                  |
+| -s, --select               | get component list for select                           |
+| -o, --overwrite            | overwrite the existing component and download a new one |
+| -h, --help                 | output all commands and guide                           |
+
 ## Usage
 
 #### If you added library in project
@@ -33,16 +43,6 @@ npm i -g shadcn-quick-cli
 shad -t button
 ```
 
-#### If you need overwrite component
-
-```
-shad -s -o
-```
-
-```
-shad -t button -o
-```
-
 ## Overwrite
 
 Use overwrite option
@@ -54,13 +54,3 @@ shad -s -o
 ```
 shad -t button -o
 ```
-
-## options
-
-| tag                        | description                                             |
-| -------------------------- | ------------------------------------------------------- |
-| -v, --version              | output the current version                              |
-| -t, --target \<component\> | directly select to shadcn-ui component                  |
-| -s, --select               | get component list for select                           |
-| -o, --overwrite            | overwrite the existing component and download a new one |
-| -h, --help                 | output all commands and guide                           |

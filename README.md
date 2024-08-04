@@ -1,6 +1,6 @@
-# shadcn-quick-cli
+# shadcn-simple-cli
 
-This shadcn-quick-cli is a CLI interface library for using installations shadcn-ui components easily and simply.
+This shadcn-simple-cli is a CLI interface library for using installations shadcn-ui components easily and simply.
 
 ![스크린샷 2024-08-04 오전 12 53 23](https://github.com/user-attachments/assets/be746bb1-d40a-4a8c-8304-5e678bf0aa65)
 
@@ -8,9 +8,9 @@ This shadcn-quick-cli is a CLI interface library for using installations shadcn-
 
 ## Installation
 
-| npm                       | yarn                         |
-| ------------------------- | ---------------------------- |
-| npm i -D shadcn-quick-cli | yarn add -D shadcn-quick-cli |
+| npm                        | yarn                          | global                     |
+| -------------------------- | ----------------------------- | -------------------------- |
+| npm i -D shadcn-simple-cli | yarn add -D shadcn-simple-cli | npm i -g shadcn-simple-cli |
 
 ## Options
 
@@ -21,25 +21,26 @@ This shadcn-quick-cli is a CLI interface library for using installations shadcn-
 | -s, --select               | get component list for select                           |
 | -o, --overwrite            | overwrite the existing component and download a new one |
 | -h, --help                 | output all commands and guide                           |
+| -d, --docs                 | link to shadcn/ui document                              |
 
 ## Usage
 
 #### If you added library in project
 
 ```
-npm i -D shadcn-quick-cli
+npm i -D shadcn-simple-cli
 npx shad -s
 ```
 
 #### If you added global ( select or target )
 
 ```
-npm i -g shadcn-quick-cli
+npm i -g shadcn-simple-cli
 shad -s
 ```
 
 ```
-npm i -g shadcn-quick-cli
+npm i -g shadcn-simple-cli
 shad -t button
 ```
 

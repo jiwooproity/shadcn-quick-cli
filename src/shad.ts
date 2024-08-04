@@ -104,7 +104,7 @@ export const start = async (param: OptionsIF) => {
     if ((await validationComp(answer.toLowerCase())) && !param.overwrite) {
       const selectArr = ["Yes", "No"];
       const choices = selectArr.map((select) => ({ name: select, value: select }));
-      const check = await select({ message: "Woul you like to overwrite?", choices });
+      const check = await select({ message: "Would you like to overwrite?", choices });
 
       switch (check) {
         case "Yes":

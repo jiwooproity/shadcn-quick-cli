@@ -10,6 +10,7 @@ interface OptionsIF {
   overwrite: boolean;
   target: string;
   select: boolean;
+  docs: boolean;
 }
 
 const readdir = (path: string) => {
@@ -65,10 +66,14 @@ const controlOptions = (param: OptionsIF) => {
   return options;
 };
 
+const exit = () => {
+  process.exit();
+};
+
 const output = (_: any, stdout: string, stderr: string) => {
   console.log(stdout);
-  console.log(stderr);
-  process.exit();
+  console.error(stderr);
+  exit();
 };
 
 const command = (manage: string, answer: string, options: string) => {
@@ -81,6 +86,11 @@ export const start = async (param: OptionsIF) => {
   const manage = searchPkgName() as string;
 
   try {
+    if (param.docs) {
+      console.log("Please, check document in https://ui.shadcn.com/");
+      exit();
+    }
+
     if (param.select) {
       const components = await getComponentList();
       const choices = components.map((comp) => ({ name: comp, value: comp }));

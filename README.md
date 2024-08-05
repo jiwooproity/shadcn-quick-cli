@@ -55,3 +55,15 @@ shad -s -o
 ```
 shad -t button -o
 ```
+
+## Used Library
+
+| package name     | source                                   |
+| ---------------- | ---------------------------------------- |
+| shadcn-ui        | https://github.com/shadcn-ui/ui          |
+| @inquirer/select | https://github.com/SBoudrias/Inquirer.js |
+| axios            | https://github.com/axios/axios           |
+| cheerio          | https://github.com/cheeriojs/cheerio     |
+| chalk            | https://github.com/chalk/chalk           |
+| commander        | https://github.com/tj/commander.js       |
+| dotenv           | https://github.com/motdotla/dotenv       |

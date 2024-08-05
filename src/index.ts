@@ -7,7 +7,7 @@ import { start } from "./shad";
 config();
 
 program
-  .version("v1.4.2", "-v, --version", "output the current version")
+  .version("v1.4.3", "-v, --version", "output the current version")
   .option("-t, --target <component>", "directly select to shadcn-ui component")
   .option("-s, --select", "get component list for select")
   .option("-o, --overwrite", "overwrite the existing component and download a new one")

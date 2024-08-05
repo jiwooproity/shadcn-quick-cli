@@ -8,6 +8,8 @@ This shadcn-simple-cli is a CLI interface library for using installations shadcn
 
 ## Installation
 
+You need to init shadcn-ui before installation shadcn-simple-cli [[shadcn-ui installation](https://ui.shadcn.com/docs/installation)]
+
 | npm                        | yarn                          | global                     |
 | -------------------------- | ----------------------------- | -------------------------- |
 | npm i -D shadcn-simple-cli | yarn add -D shadcn-simple-cli | npm i -g shadcn-simple-cli |

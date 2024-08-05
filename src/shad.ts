@@ -58,7 +58,7 @@ export class CreateChoice {
   }
 
   private convertValue(item: string) {
-    return item.toLowerCase();
+    return item.toLowerCase().replace(" ", "-");
   }
 
   private async createSelect<T>(message: string, choices: ChoiceItem[]): Promise<T | string> {

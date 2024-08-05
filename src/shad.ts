@@ -7,7 +7,7 @@ import { load } from "cheerio";
 export type ProcessArgv = {
   help: boolean;
   overwrite: boolean;
-  target: string;
+  target?: string;
   select: boolean;
   docs: boolean;
 };
@@ -137,6 +137,7 @@ export class ShadcnCLI {
       }
     }
 
+    console.log(`${this.manage} shadcn-ui@latest add ${this.answer} ${this.options}`);
     exec(`${this.manage} shadcn-ui@latest add ${this.answer} ${this.options}`, output);
   }
 
@@ -147,10 +148,11 @@ export class ShadcnCLI {
 }
 
 export const start = async (argv: ProcessArgv) => {
+  const CLI = new ShadcnCLI(argv);
+
   try {
-    const CLI = new ShadcnCLI(argv);
     await CLI.question().then(() => CLI.execute());
   } catch (e) {
-    console.error("Error!!");
+    console.error("Canceled");
   }
 };

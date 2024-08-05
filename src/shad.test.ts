@@ -1,4 +1,4 @@
-import { getComponents, isNeedOverwriting, readdir } from "./shad";
+import { chrowingHTML, getComponents, isNeedOverwriting, readdir, start } from "./shad";
 import { test, expect } from "@jest/globals";
 
 const shadcnUIList = [
@@ -59,7 +59,12 @@ describe("Verify that the scan directory is valid.", () => {
   });
 });
 
-describe("Verify that the cheerio API is valid.", () => {
+describe("Verify that the Chrowing is valid.", () => {
+  test("GET request is valid to shadcn/ui website ( status: 200 )", async () => {
+    const html = await chrowingHTML();
+    expect(html.status).toBe(200);
+  });
+
   test("Chrowing in shadcn/ui menu.", async () => {
     expect(await getComponents().then((res) => res)).toEqual(shadcnUIList);
   });

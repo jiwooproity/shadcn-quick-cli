@@ -3,6 +3,7 @@ import select from "@inquirer/select";
 import { readdirSync, readFileSync } from "fs";
 import { exec } from "child_process";
 import { load } from "cheerio";
+import chalk from "chalk";
 
 export type ProcessArgv = {
   help: boolean;
@@ -47,9 +48,13 @@ export const isNeedOverwriting = async (componentName: string) => {
   return fileNames.map((file) => file[0]).includes(componentName);
 };
 
+export const log = ({ color, msg }: { color: "white" | "green"; msg: string }) => {
+  console.log(chalk[color](msg));
+};
+
 export const output = (_: any, stdout: string, stderr: string) => {
-  console.log(stdout);
-  console.error(stderr);
+  log({ color: "white", msg: stdout });
+  log({ color: "green", msg: stderr });
 };
 
 export class CreateChoice {
@@ -137,8 +142,9 @@ export class ShadcnCLI {
       }
     }
 
-    console.log(`${this.manage} shadcn-ui@latest add ${this.answer} ${this.options}`);
-    exec(`${this.manage} shadcn-ui@latest add ${this.answer} ${this.options}`, output);
+    const cli = `${this.manage} shadcn-ui@latest add ${this.answer} ${this.options}`;
+    log({ color: "green", msg: cli });
+    exec(cli, output);
   }
 
   async init() {

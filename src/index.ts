@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from "commander";
-import { config } from "dotenv";
 import { start } from "./shad";
-
-config();
 
 program
   .version("v1.4.3", "-v, --version", "output the current version")

@@ -14,6 +14,7 @@
     "dev": "tsx ./src/index.ts",
     "test": "jest",
     "build": "tsc",
+    "size": "tsx ./check-build-size.ts",
     "esbuild": "node ./esbuild.config.mjs",
     "publish": "yarn run build & npm publish"
   },

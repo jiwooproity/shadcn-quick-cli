@@ -1,125 +1,156 @@
 import axios from "axios";
 import select from "@inquirer/select";
-import { load } from "cheerio";
-import { resolve } from "path";
 import { readdirSync, readFileSync } from "fs";
 import { exec } from "child_process";
+import { load } from "cheerio";
 
-interface OptionsIF {
+export type ProcessArgv = {
   help: boolean;
   overwrite: boolean;
   target: string;
   select: boolean;
   docs: boolean;
-}
-
-const readdir = (path: string) => {
-  const resolvePath = resolve(path);
-  return readdirSync(resolvePath);
 };
 
-const validationComp = async (componentName: string) => {
+interface ChoiceItem {
+  name: string;
+  value: string;
+}
+
+const QUESTION = {
+  COMPONENT: "What would you like to add in project",
+  OVERWRITE: "Would you like to overwrite?",
+};
+
+export const readdir = (path: string) => {
+  return readdirSync(path);
+};
+
+export const chrowingHTML = async () => {
+  return await axios.get("https://ui.shadcn.com/docs/components/accordion");
+};
+
+export const getComponents = async (): Promise<string[]> => {
+  const html = await chrowingHTML();
+  const $ = load(html?.data);
+  const $menu = $(".pb-4");
+  const $children = $menu[1].children;
+  const $items = $($children).find(".group");
+  return $items.map((_, item) => $(item).text()).get();
+};
+
+export const isNeedOverwriting = async (componentName: string) => {
   const configFile = readFileSync("./components.json").toString();
   const configPath = await JSON.parse(configFile);
-  const filePath = resolve(`./${configPath.aliases.components}/ui`);
+  const filePath = `./${configPath.aliases.components}/ui`;
   const fileNames = readdirSync(filePath).map((file) => file.split("."));
   return fileNames.map((file) => file[0]).includes(componentName);
 };
 
-const searchPkgName = () => {
-  const files = readdir("./");
-
-  if (files.includes("package-lock.json")) {
-    return "npx";
-  } else if (files.includes("yarn.lock")) {
-    return "yarn add";
-  } else if (files.includes(".yarn")) {
-    return "yarn dlx";
-  }
-};
-
-const getHTML = async () => {
-  try {
-    return await axios.get("https://ui.shadcn.com/docs/components/accordion");
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const getComponentList = async () => {
-  const html = await getHTML();
-  const $ = load(html?.data);
-  const $container = $(".pb-4");
-  const $grid = $container[1].children;
-  const $items = $($grid).find(".group");
-  const $links = $items.map((_, item) => $(item).text());
-  return $links.get();
-};
-
-const controlOptions = (param: OptionsIF) => {
-  let options = "";
-
-  if (param.overwrite) {
-    options += "--overwrite";
-  }
-
-  return options;
-};
-
-const exit = () => {
-  process.exit();
-};
-
-const output = (_: any, stdout: string, stderr: string) => {
+export const output = (_: any, stdout: string, stderr: string) => {
   console.log(stdout);
   console.error(stderr);
-  exit();
 };
 
-const command = (manage: string, answer: string, options: string) => {
-  exec(`${manage} shadcn-ui@latest add ${answer.toLowerCase()} ${options}`, output);
-};
+export class CreateChoice {
+  constructor(private items: string[]) {
+    this.items = items;
+  }
 
-export const start = async (param: OptionsIF) => {
-  let answer = "";
-  let options = controlOptions(param);
-  const manage = searchPkgName() as string;
+  private convertValue(item: string) {
+    return item.toLowerCase();
+  }
 
-  try {
-    if (param.docs) {
-      console.log("Please, check document in https://ui.shadcn.com/");
-      exit();
+  private createSelect = async (message: string, choices: ChoiceItem[]): Promise<string> => {
+    return await select({ message, choices });
+  };
+
+  private createItems(): ChoiceItem[] {
+    return this.items.map((item) => ({ name: item, value: this.convertValue(item) }));
+  }
+
+  public async get(type: string) {
+    const answer = await this.createSelect(type, this.createItems());
+    return answer;
+  }
+}
+
+export class ShadcnCLI {
+  private options: string;
+  private manage: string;
+  private answer: string;
+  private overwriteTrigger: boolean;
+
+  constructor(public argv: ProcessArgv) {
+    this.argv = argv;
+    this.options = "";
+    this.manage = "";
+    this.answer = "";
+    this.overwriteTrigger = false;
+    this.init();
+  }
+
+  private setOptions() {
+    if (this.argv.overwrite) {
+      this.options += "--overwrite";
+    }
+  }
+
+  async question() {
+    if (this.argv.select) {
+      const choices = new CreateChoice(await getComponents());
+      this.answer = await choices.get(QUESTION.COMPONENT);
     }
 
-    if (param.select) {
-      const components = await getComponentList();
-      const choices = components.map((comp) => ({ name: comp, value: comp }));
-      answer = await select({ message: "What would you like to add in project", choices });
+    if (!this.argv.select && this.argv.target) {
+      this.answer = this.argv.target;
     }
 
-    if (param.target) {
-      answer = param.target;
+    this.overwriteTrigger = await isNeedOverwriting(this.answer);
+  }
+
+  private setPackageName() {
+    const files = readdir("./");
+
+    if (files.includes("package-lock.json")) {
+      this.manage = "npx";
+    } else if (files.includes("yarn.lock")) {
+      this.manage = "yarn add";
+    } else if (files.includes(".yarn")) {
+      this.manage = "yarn dlx";
     }
+  }
 
-    if ((await validationComp(answer.toLowerCase())) && !param.overwrite) {
-      const selectArr = ["Yes", "No"];
-      const choices = selectArr.map((select) => ({ name: select, value: select }));
-      const check = await select({ message: "Would you like to overwrite?", choices });
+  async execute() {
+    if (!this.argv.overwrite && this.overwriteTrigger) {
+      const choices = new CreateChoice(["Yes", "No"]);
+      const agree = await choices.get(QUESTION.OVERWRITE);
 
-      switch (check) {
-        case "Yes":
-          options += controlOptions({ ...param, overwrite: true });
+      switch (agree) {
+        case "yes":
+          this.options += "--overwrite";
           break;
-        case "No":
-          console.log("Canceled installing");
+        case "no":
           process.exit();
         default:
           break;
       }
     }
 
-    command(manage, answer, options);
+    exec(`${this.manage} shadcn-ui@latest add ${this.answer} ${this.options}`, output);
+  }
+
+  async init() {
+    this.setOptions();
+    this.setPackageName();
+  }
+}
+
+export const start = async (argv: ProcessArgv) => {
+  try {
+    const CLI = new ShadcnCLI(argv);
+    await CLI.question().then(() => CLI.execute());
   } catch (e) {
-    console.error("Canceled");
+    console.error("Error!!");
   }
 };

@@ -61,16 +61,16 @@ export class CreateChoice {
     return item.toLowerCase();
   }
 
-  private createSelect = async (message: string, choices: ChoiceItem[]): Promise<string> => {
-    return await select({ message, choices });
-  };
+  private async createSelect<T>(message: string, choices: ChoiceItem[]): Promise<T | string> {
+    return (await select({ message, choices })) as T;
+  }
 
   private createItems(): ChoiceItem[] {
     return this.items.map((item) => ({ name: item, value: this.convertValue(item) }));
   }
 
-  public async get(type: string) {
-    const answer = await this.createSelect(type, this.createItems());
+  public async get<T>(type: string): Promise<T | string> {
+    const answer = await this.createSelect<T>(type, this.createItems());
     return answer;
   }
 }
@@ -124,7 +124,7 @@ export class ShadcnCLI {
   async execute() {
     if (!this.argv.overwrite && this.overwriteTrigger) {
       const choices = new CreateChoice(["Yes", "No"]);
-      const agree = await choices.get(QUESTION.OVERWRITE);
+      const agree = await choices.get<"yes" | "no">(QUESTION.OVERWRITE);
 
       switch (agree) {
         case "yes":

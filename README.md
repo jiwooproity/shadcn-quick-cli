@@ -31,6 +31,8 @@ You need to init shadcn-ui before installation shadcn-simple-cli [[shadcn-ui ins
 
 ```
 npm i -D shadcn-simple-cli
+```
+```
 npx shad -s
 ```
 
@@ -38,11 +40,11 @@ npx shad -s
 
 ```
 npm i -g shadcn-simple-cli
+```
+```
 shad -s
 ```
-
 ```
-npm i -g shadcn-simple-cli
 shad -t button
 ```
 

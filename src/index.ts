@@ -2,7 +2,6 @@
 
 import { program } from "commander";
 import { config } from "dotenv";
-
 import { start } from "./shad";
 
 config();

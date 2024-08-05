@@ -1,9 +1,9 @@
 import axios from "axios";
+import chalk from "chalk";
 import select from "@inquirer/select";
 import { readdirSync, readFileSync } from "fs";
 import { exec } from "child_process";
 import { load } from "cheerio";
-import chalk from "chalk";
 
 export type ProcessArgv = {
   help: boolean;

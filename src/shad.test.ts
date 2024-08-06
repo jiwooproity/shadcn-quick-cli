@@ -3,7 +3,7 @@ import { test, expect } from "@jest/globals";
 
 describe("Verify that the scan directory is valid.", () => {
   test("Read in directory files.", () => {
-    expect(readdir("./test")).toEqual(["lib", "ui"]);
+    expect(readdir("./test")).toEqual(["ui"]);
   });
 });
 

@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "tsx ./src/index.ts",
     "test": "jest",
-    "build": "babel src --out-dir build --extensions '.ts'",
+    "build": "tsc",
     "size": "tsx ./scripts/calc-size.ts"
   },
   "license": "MIT",

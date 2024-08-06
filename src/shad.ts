@@ -26,6 +26,10 @@ export const readdir = (path: string) => {
   return readdirSync(path);
 };
 
+export const readFile = (path: string) => {
+  return readFileSync(path);
+};
+
 export const chrowingHTML = async () => {
   return await axios.get("https://ui.shadcn.com/docs/components/accordion");
 };
@@ -40,11 +44,26 @@ export const getComponents = async (): Promise<string[]> => {
 };
 
 export const isNeedOverwriting = async (componentName: string) => {
-  const configFile = readFileSync("./components.json").toString();
+  let filePath = "";
+
+  const configFile = readFile("./components.json").toString();
   const configPath = await JSON.parse(configFile);
-  const filePath = `./${configPath.aliases.components}/ui`;
-  const fileNames = readdirSync(filePath).map((file) => file.split("."));
-  return fileNames.map((file) => file[0]).includes(componentName);
+
+  if (configPath.aliases.components.includes("@")) {
+    const tsconfigFile = readFile("./tsconfig.json").toString();
+    const tsconfigJSON = await JSON.parse(tsconfigFile);
+    const tsconfigPath = tsconfigJSON.compilerOptions.paths["@/*"][0].split("/")[1];
+    filePath = `./${tsconfigPath}/${configPath.aliases.components.replace("@/", "")}/ui`;
+  } else {
+    filePath = `./${configPath.aliases.components}/ui`;
+  }
+
+  try {
+    const fileNames = readdirSync(filePath).map((file) => file.split("."));
+    return fileNames.map((file) => file[0]).includes(componentName);
+  } catch (e) {
+    return false; // ui 폴더가 없는 경우, shadcn-ui CLI 실행
+  }
 };
 
 export const output = (_: any, stdout: string, stderr: string) => {
@@ -84,7 +103,7 @@ export class ShadcnCLI {
   constructor(public argv: ProcessArgv) {
     this.argv = argv;
     this.options = "";
-    this.manage = "";
+    this.manage = "npx";
     this.answer = "";
     this.overwriteTrigger = false;
     this.init();
@@ -114,8 +133,6 @@ export class ShadcnCLI {
 
     if (files.includes("package-lock.json")) {
       this.manage = "npx";
-    } else if (files.includes("yarn.lock")) {
-      this.manage = "yarn add";
     } else if (files.includes(".yarn")) {
       this.manage = "yarn dlx";
     }

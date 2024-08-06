@@ -7,7 +7,8 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "outDir": "build",
-    "allowJs": true
+    "allowJs": true,
+    "noEmit": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "src/**/*.test.ts", "test"]

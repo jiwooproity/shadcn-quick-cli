@@ -12,9 +12,7 @@
   },
   "scripts": {
     "dev": "tsx ./src/index.ts",
-    "build": "tsc",
-    "test": "jest",
-    "size": "tsx ./scripts/calc-size.ts"
+    "build": "tsc"
   },
   "license": "MIT",
   "dependencies": {

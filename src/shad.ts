@@ -90,6 +90,30 @@ export class CreateChoice {
   }
 }
 
+class CreateDate {
+  private date: Date;
+
+  constructor() {
+    this.date = new Date();
+  }
+
+  public getYear() {
+    return this.date.getFullYear();
+  }
+
+  public getMonth() {
+    return this.date.getMonth() + 1;
+  }
+
+  public getDay() {
+    return this.date.getDay();
+  }
+
+  public getNowDate(): string {
+    return `${this.getYear()}.${this.getMonth()}.${this.getDay()}`;
+  }
+}
+
 export class ShadcnCLI {
   private options: string;
   private manage: string;
@@ -144,12 +168,19 @@ export class ShadcnCLI {
     }
   }
 
+  private createLogFile(text: string, filename: string, path: string = "./") {
+    exec(`echo ${text} >> ${path}/${filename}`);
+  }
+
   private output = (stdout: string, stderr: string) => {
     console.log(stdout);
     console.log(stderr);
 
     if (this.argv.log) {
-      exec(`echo ${this.answer} >> ./components-log.txt`);
+      const date = new CreateDate().getNowDate();
+      const status = this.overwriteTrigger ? "overwrited" : "new";
+      const log = `[${date}]: ${status} - ${this.answer}`;
+      this.createLogFile(log, "components-log.txt");
     }
   };
 

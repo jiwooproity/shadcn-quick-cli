@@ -1,6 +1,6 @@
 {
   "name": "shadcn-simple-cli",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "main": "./src/index.js",
   "author": {
     "name": "Jiwoo So",

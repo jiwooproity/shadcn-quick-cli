@@ -36,5 +36,5 @@ const getFileSize = async (path: string) => {
 
 (async () => {
   const size = await getFileSize("./build");
-  exec(`echo "${new NowDate().get()}: ${size}" >> ./size-log.txt`);
+  exec(`echo "${new NowDate().get()}: ${size}" >> ./logs/size-log.txt`);
 })();

@@ -14,7 +14,7 @@
     "dev": "tsx ./src/index.ts",
     "test": "jest",
     "build": "tsc",
-    "size": "tsx ./check-build-size.ts",
+    "size": "tsx ./scripts/check-build-size.ts",
     "publish": "yarn run build & npm publish"
   },
   "license": "MIT",

@@ -14,7 +14,8 @@
     "dev": "tsx ./src/index.ts",
     "build": "tsc",
     "test": "jest",
-    "size": "tsx ./scripts/calc-size.ts"
+    "size": "tsx ./scripts/calc-size.ts",
+    "publish": "yarn run build && npm publish"
   },
   "license": "MIT",
   "dependencies": {

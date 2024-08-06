@@ -10,6 +10,7 @@ export type ProcessArgv = {
   target?: string;
   select: boolean;
   docs: boolean;
+  log: boolean;
 };
 
 interface ChoiceItem {
@@ -66,11 +67,6 @@ export const isNeedOverwriting = async (componentName: string) => {
   }
 };
 
-export const output = (_: any, stdout: string, stderr: string) => {
-  console.log(stdout);
-  console.log(stderr);
-};
-
 export class CreateChoice {
   constructor(private items: string[]) {
     this.items = items;
@@ -125,6 +121,16 @@ export class ShadcnCLI {
       this.answer = this.argv.target;
     }
 
+    if (!this.argv.select && !this.argv.target) {
+      console.error("please, you need to use -s or -t <component-name> options");
+      process.exit();
+    }
+
+    if (this.argv.select && this.argv.target) {
+      console.error("please, you need to use -s or -t options each one");
+      process.exit();
+    }
+
     this.overwriteTrigger = await isNeedOverwriting(this.answer);
   }
 
@@ -137,6 +143,15 @@ export class ShadcnCLI {
       this.manage = "yarn dlx";
     }
   }
+
+  private output = (stdout: string, stderr: string) => {
+    console.log(stdout);
+    console.log(stderr);
+
+    if (this.argv.log) {
+      exec(`echo ${this.answer} >> ./components-log.txt`);
+    }
+  };
 
   async execute() {
     if (!this.argv.overwrite && this.overwriteTrigger) {
@@ -155,7 +170,7 @@ export class ShadcnCLI {
     }
 
     const cli = `${this.manage} shadcn-ui@latest add ${this.answer} ${this.options}`;
-    exec(cli, output);
+    exec(cli, (_: any, stdout: string, stderr: string) => this.output(stdout, stderr));
     console.log(cli);
   }
 

@@ -10,6 +10,7 @@ program
   .option("-o, --overwrite", "overwrite the existing component and download a new one")
   .option("-h, --help", "output all commands and guide")
   .option("-d, --docs", "link to shadcn/ui document")
+  .option("-l, --log", "create logs file about added components")
   .action((options) => {
     if (Object.keys(options).length) {
       if (!options.help) start(options);

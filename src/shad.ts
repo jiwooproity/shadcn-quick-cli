@@ -128,7 +128,7 @@ export class ShadcnCLI {
 
   async execute() {
     if (!this.argv.overwrite && this.overwriteTrigger) {
-      const choices = new CreateChoice(["Yes", "No"]);
+      const choices = new CreateChoice(["yes", "no"]);
       const agree = await choices.get<"yes" | "no">(QUESTION.OVERWRITE);
 
       switch (agree) {

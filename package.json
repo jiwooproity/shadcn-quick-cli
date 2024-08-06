@@ -12,8 +12,8 @@
   },
   "scripts": {
     "dev": "tsx ./src/index.ts",
-    "test": "jest",
     "build": "tsc",
+    "test": "jest",
     "size": "tsx ./scripts/calc-size.ts"
   },
   "license": "MIT",

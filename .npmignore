@@ -1,0 +1,23 @@
+# GitHub config
+.github
+.gitignore
+
+# Build log file
+logs
+
+# Package, Node scripts
+node_modules
+scripts
+
+# Test files
+test
+
+# Project folder
+src
+
+# Config files
+babel.config.json
+components.json
+jest.config.js
+tsconfig.json
+yarn.lock

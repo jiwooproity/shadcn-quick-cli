@@ -135,7 +135,7 @@ export class ShadcnCLI {
     }
   }
 
-  async question() {
+  public async question() {
     if (this.argv.select) {
       const choices = new CreateChoice(await getComponents());
       this.answer = await choices.get(QUESTION.COMPONENT);
@@ -184,7 +184,7 @@ export class ShadcnCLI {
     }
   };
 
-  async execute() {
+  public async execute() {
     if (!this.argv.overwrite && this.overwriteTrigger) {
       const choices = new CreateChoice(["yes", "no"]);
       const agree = await choices.get<"yes" | "no">(QUESTION.OVERWRITE);
@@ -205,7 +205,7 @@ export class ShadcnCLI {
     console.log(cli);
   }
 
-  async init() {
+  private async init() {
     this.setOptions();
     this.setPackageName();
   }

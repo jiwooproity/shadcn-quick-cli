@@ -1,4 +1,4 @@
-import { chrowingHTML, getComponents, isNeedOverwriting, readdir, start } from "./shad";
+import { chrowingHTML, getComponents, isNeedOverwriting, readdir } from "./shad";
 import { test, expect } from "@jest/globals";
 
 describe("Verify that the scan directory is valid.", () => {

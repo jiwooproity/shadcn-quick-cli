@@ -1,6 +1,6 @@
 # shadcn-simple-cli
 
-This shadcn-simple-cli is a CLI library for using installations shadcn-ui components easily and simply.
+shadcn-simple-cli는 shadcn-ui 컴포넌트를 쉽고 간단하게 설치할 수 있도록 도와주는 CLI 라이브러리입니다.
 
 ![스크린샷 2024-08-04 오전 12 53 23](https://github.com/user-attachments/assets/be746bb1-d40a-4a8c-8304-5e678bf0aa65)
 
@@ -8,7 +8,7 @@ This shadcn-simple-cli is a CLI library for using installations shadcn-ui compon
 
 ## Installation
 
-You need to init shadcn-ui before installation shadcn-simple-cli [[shadcn-ui installation](https://ui.shadcn.com/docs/installation)]
+shadcn-simple-cli를 설치하기 전에 shadcn-ui 초기 설정이 필요합니다. [[shadcn-ui installation](https://ui.shadcn.com/docs/installation)]
 
 | npm                        | yarn                          | global                     |
 | -------------------------- | ----------------------------- | -------------------------- |
@@ -16,14 +16,14 @@ You need to init shadcn-ui before installation shadcn-simple-cli [[shadcn-ui ins
 
 ## Options
 
-| tag                        | description                                             |
-| -------------------------- | ------------------------------------------------------- |
-| -v, --version              | output the current version                              |
-| -t, --target \<component\> | directly select to shadcn-ui component                  |
-| -s, --select               | get component list for select                           |
-| -o, --overwrite            | overwrite the existing component and download a new one |
-| -h, --help                 | output all commands and guide                           |
-| -d, --docs                 | link to shadcn/ui document                              |
+| 태그                      | 설명                                           |
+| ------------------------- | ---------------------------------------------- |
+| -v, --version             | 버전 정보를 표시합니다.                        |
+| -t, --target \<컴포넌트\> | 설치할 shadcn-ui 컴포넌트를 직접 선택합니다.   |
+| -s, --select              | 선택할 컴포넌트 리스트를 제공합니다.           |
+| -o, --overwrite           | 이미 존재하는 컴포넌트를 덮어씌울 수 있습니다. |
+| -h, --help                | 모든 명령어 옵션과 가이드를 제공합니다.        |
+| -d, --docs                | shadcn/ui 문서로 이동합니다.                   |
 
 ## Usage
 
